@@ -1,8 +1,7 @@
 package com.kymahi.audiobookshelf.android.addserver
 
-import android.content.res.Resources
+import android.content.res.Resources.getSystem
 import android.os.Bundle
-import android.util.TypedValue
 import android.util.TypedValue.COMPLEX_UNIT_DIP
 import android.util.TypedValue.applyDimension
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.BindingAdapter
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -88,7 +86,7 @@ class AddServerFragment : BaseFragment() {
                     addServerModel.updateServers(mainActivity?.getAllServers())
                     fragmentBinding.serverList.apply {
                         val params = layoutParams
-                        params.height = min(400.dp, height + 56.dp).toInt()
+                        params.height = min(400.dp, height + R.dimen.server_list_item_height.get())
                         layoutParams = params
                     }
                 }
@@ -106,7 +104,8 @@ class AddServerFragment : BaseFragment() {
         dismiss()
     }
 
-    private val Number.dp get() = applyDimension(COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics)
+    private val Number.dp get() = applyDimension(COMPLEX_UNIT_DIP, toFloat(), getSystem().displayMetrics).toInt()
+    private fun Int.get() = resources.getDimension(this).toInt()
 
     companion object {
         @JvmStatic
