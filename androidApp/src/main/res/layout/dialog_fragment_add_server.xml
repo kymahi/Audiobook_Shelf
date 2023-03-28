@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="addServerModel"
+            type="com.kymahi.audiobookshelf.android.addserver.viewmodels.AddServerModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="40dp"
+        android:background="@color/background">
+
+        <TextView
+            android:id="@+id/server_address_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/server_address"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/server_address_input"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/round_corner_secondary_background_light_border"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/url_example"
+            android:importantForAutofill="no"
+            android:inputType="textUri"
+            android:padding="8dp"
+            android:textColor="@color/off_white"
+            android:textColorHint="@color/off_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/server_address_label" />
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="16dp"
+            android:text="@string/server_connection_error"
+            android:textColor="@android:color/holo_red_light"
+            android:textStyle="bold"
+            android:visibility="@{addServerModel.errorVisibilityLiveData}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/server_address_input" />
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="104dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/round_corner_transparkent_background_light_border"
+            android:onClick="@{(v) -> addServerModel.submit()}"
+            android:text="@string/submit"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/error_text" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="104dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/round_corner_transparkent_background_light_border"
+            android:onClick="@{(v) -> addServerModel.cancel()}"
+            android:text="@string/cancel"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/submit_button"
+            app:layout_constraintTop_toBottomOf="@id/error_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
