@@ -1,7 +1,7 @@
 package com.kymahi.audiobookshelf.android.addserver.serverlist
 
 import androidx.recyclerview.widget.DiffUtil
-import comjetbrainshandsonkmmsharedcache.Server
+import com.app.sql.shared.entity.Server
 
 class ServerDiffCallback(private val oldList: List<Server>, private val newList: List<Server>) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size

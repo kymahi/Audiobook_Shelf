@@ -7,6 +7,6 @@ open class BaseFragment : Fragment() {
         get() = activity as? MainActivity
 
     companion object {
-        const val DEFAULT_SERVER_ID = -1L
+        const val DEFAULT_SERVER_ID = -1
     }
 }

@@ -1,6 +1,7 @@
-package com.jetbrains.handson.kmm.shared.cache
+package com.app.sql.shared.cache
 
 import android.content.Context
+import com.app.sql.shared.AppDatabase
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 

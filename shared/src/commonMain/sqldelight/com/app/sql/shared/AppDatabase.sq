@@ -11,7 +11,7 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Book (
-    id              INTEGER     PRIMARY KEY     AUTOINCREMENT   NOT NULL,
+    id              TEXT        PRIMARY KEY                     NOT NULL,
     title           TEXT                                        NOT NULL,
     subtitle        TEXT                                        NOT NULL,
     authors         TEXT                                        NOT NULL,

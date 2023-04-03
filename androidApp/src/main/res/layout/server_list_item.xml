@@ -6,7 +6,7 @@
     <data>
         <variable
             name="server"
-            type="comjetbrainshandsonkmmsharedcache.Server" />
+            type="com.app.sql.shared.entity.Server" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

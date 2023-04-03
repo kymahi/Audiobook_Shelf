@@ -2,12 +2,10 @@ package com.kymahi.audiobookshelf.android.addserver.serverlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.app.sql.shared.entity.Server
 import com.kymahi.audiobookshelf.android.databinding.ServerListItemBinding
-import comjetbrainshandsonkmmsharedcache.Server
 
 class ServerListAdapter(
     private val serverList: MutableList<Server> = mutableListOf()

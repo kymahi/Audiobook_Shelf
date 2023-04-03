@@ -3,7 +3,7 @@ package com.kymahi.audiobookshelf.android.addserver.viewmodels
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import comjetbrainshandsonkmmsharedcache.Server
+import com.app.sql.shared.entity.Server
 
 class AddServerModel: ViewModel() {
     val addServerModalLiveData = MutableLiveData<Unit>()

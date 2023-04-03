@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.app.sql.shared.entity.Server
 import com.kymahi.audiobookshelf.ABSRequest
 import com.kymahi.audiobookshelf.android.BaseFragment
 import com.kymahi.audiobookshelf.android.R
@@ -21,7 +22,6 @@ import com.kymahi.audiobookshelf.android.addserver.viewmodels.AddServerModel
 import com.kymahi.audiobookshelf.android.addserver.viewmodels.GitHubViewModel
 import com.kymahi.audiobookshelf.android.databinding.DialogFragmentAddServerBinding
 import com.kymahi.audiobookshelf.android.databinding.FragmentAddServerBinding
-import comjetbrainshandsonkmmsharedcache.Server
 import kotlinx.coroutines.launch
 import kotlin.math.min
 
@@ -107,7 +107,7 @@ class AddServerFragment : BaseFragment() {
     private val Number.dp get() = applyDimension(COMPLEX_UNIT_DIP, toFloat(), getSystem().displayMetrics).toInt()
     private fun Int.get() = resources.getDimension(this).toInt()
 
-    companion object {
+    companion object AddServerFragmentServerListBindingAdapter {
         @JvmStatic
         @BindingAdapter("serverList")
         fun bindServerList(recyclerView: RecyclerView, servers: List<Server>?) {
