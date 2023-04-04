@@ -10,6 +10,7 @@ class AddServerModel: ViewModel() {
     val submitDialogLiveData = MutableLiveData<Unit>()
     val cancelDialogLiveData = MutableLiveData<Unit>()
     val errorVisibilityLiveData = MutableLiveData(View.GONE)
+    val errorTextLiveData = MutableLiveData("")
     val serverLiveData = MutableLiveData<List<Server>>()
     val clearServersLiveData = MutableLiveData<Unit>()
 
@@ -25,7 +26,8 @@ class AddServerModel: ViewModel() {
         cancelDialogLiveData.value = Unit
     }
 
-    fun showError(isVisible: Boolean) {
+    fun setError(isVisible: Boolean, errorText: String = "") {
+        errorTextLiveData.postValue(errorText)
         errorVisibilityLiveData.postValue(if (isVisible) View.VISIBLE else View.GONE)
     }
 

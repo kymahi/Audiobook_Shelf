@@ -45,14 +45,14 @@ class ABSRequest {
         errorHandler: suspend (Throwable) -> T
     ): T = runCatching { block() }.getOrElse { errorHandler(it) }
 
-    private fun String.toSafeUrl() = URLBuilder(HTTP, getHost(), getPort(), pathSegments = getPath().split("/") + PING).build()
-    private fun String.getHost() = substringAfter(PROTOCOL).substringBefore(PORT)
-    private fun String.getPort() = substringAfter(PROTOCOL).substringAfter(PORT, "").substringBefore(PATH).let {
-        if (it.isBlank()) DEFAULT_PORT else try { it.toInt() } catch (t: Throwable) { DEFAULT_PORT }
-    }
-    private fun String.getPath() = substringAfter(PROTOCOL).substringAfter(PORT).substringAfter(PATH, "")
+    companion object {
+        fun String.toSafeUrl() = URLBuilder(HTTP, getHost(), getPort(), pathSegments = getPath().split("/") + PING).build()
+        fun String.getHost() = substringAfter(PROTOCOL).substringBefore(PORT)
+        fun String.getPort() = substringAfter(PROTOCOL).substringAfter(PORT, "").substringBefore(PATH).let {
+            if (it.isBlank()) DEFAULT_PORT else try { it.toInt() } catch (t: Throwable) { DEFAULT_PORT }
+        }
+        fun String.getPath() = substringAfter(PROTOCOL).substringAfter(PORT).substringAfter(PATH, "")
 
-    private companion object {
         const val PORT = ":"
         const val PATH = "/"
         const val PROTOCOL = "://"

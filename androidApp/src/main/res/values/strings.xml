@@ -8,6 +8,8 @@
     <string name="url_example">55.55.55.55:13378</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
-    <string name="server_connection_error">Failed to connect to server. Please verify the address is correct and try again.</string>
     <string name="server_icon">server_icon</string>
+    <string name="server_connection_error">Failed to connect to server. Please verify the address is correct and try again.</string>
+    <string name="duplicate_server_error">Server already exists. Please add a different server to the list, or you can add additional users to an existing server.</string>
+    <string name="failed_to_insert_error">Failed to add new server. Please try again.</string>
 </resources>

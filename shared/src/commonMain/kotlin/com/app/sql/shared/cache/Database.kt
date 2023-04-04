@@ -15,11 +15,11 @@ class Database(databaseDriverFactory: DatabaseDriverFactory) {
     fun getAllServers() = dbQuery.selectAllServers(::mapServer).executeAsList()
     fun getAllUsers() = dbQuery.selectAllUsers(::mapUser).executeAsList()
     fun getAllBooks() = dbQuery.selectAllBooks(::mapBook).executeAsList()
-    fun getServerById(id: Long) = dbQuery.transactionWithResult { dbQuery.selectServerById(id, ::mapServer) }
-    fun getUserById(id: Long) = dbQuery.transactionWithResult { dbQuery.selectUserById(id, ::mapUser) }
-    fun getBookById(id: String) = dbQuery.transactionWithResult { dbQuery.selectBookById(id, ::mapBook) }
-    fun getServerByUrl(url: String) = dbQuery.transactionWithResult { dbQuery.selectServerByUrl(url, ::mapServer) }
-    fun getUserByServer(id: Long) = dbQuery.transactionWithResult { dbQuery.selectUserByServer(id, ::mapUser) }
+    fun getServerById(id: Long) = dbQuery.transactionWithResult { dbQuery.selectServerById(id, ::mapServer) }.executeAsOneOrNull()
+    fun getUserById(id: Long) = dbQuery.transactionWithResult { dbQuery.selectUserById(id, ::mapUser) }.executeAsOneOrNull()
+    fun getBookById(id: String) = dbQuery.transactionWithResult { dbQuery.selectBookById(id, ::mapBook) }.executeAsOneOrNull()
+    fun getServerByUrl(url: String) = dbQuery.transactionWithResult { dbQuery.selectServerByUrl(url, ::mapServer) }.executeAsOneOrNull()
+    fun getUserByServer(id: Long) = dbQuery.transactionWithResult { dbQuery.selectUserByServer(id, ::mapUser) }.executeAsOneOrNull()
     fun removeAllServers() = dbQuery.transaction { dbQuery.removeAllServers() }
     fun removeAllUsers() = dbQuery.transaction { dbQuery.removeAllUsers() }
     fun removeAllBooks() = dbQuery.transaction { dbQuery.removeAllBooks() }

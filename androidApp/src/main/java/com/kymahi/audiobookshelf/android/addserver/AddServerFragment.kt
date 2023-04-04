@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.app.sql.shared.entity.Server
 import com.kymahi.audiobookshelf.ABSRequest
+import com.kymahi.audiobookshelf.ABSRequest.Companion.getHost
 import com.kymahi.audiobookshelf.android.BaseFragment
 import com.kymahi.audiobookshelf.android.R
 import com.kymahi.audiobookshelf.android.addserver.serverlist.ServerListAdapter
@@ -77,18 +78,27 @@ class AddServerFragment : BaseFragment() {
         }
 
         addServerModel.submitDialogLiveData.observe(viewLifecycleOwner) {
-            mainActivity?.setLoading(true)
-            addServerModel.showError(false)
+            showLoading()
+            addServerModel.setError(false)
             lifecycleScope.launch {
-                absRequest.verifyServerAddress(dialogBinding.serverAddressInput.text.toString())
+                val url = dialogBinding.serverAddressInput.text.toString()
+                if (mainActivity?.getServerByUrl(url.getHost()) == null) {
+                    absRequest.verifyServerAddress(url)
+                } else {
+                    addServerModel.setError(true, resources.getString(R.string.duplicate_server_error))
+                    hideLoading()
+                }
             }
         }
 
         addServerModel.cancelDialogLiveData.observe(viewLifecycleOwner) {
-            mainActivity?.setLoading(false)
+            hideLoading()
             dialog.reset()
         }
     }
+
+    private fun showLoading() = mainActivity?.setLoading(true)
+    private fun hideLoading() = mainActivity?.setLoading(false)
 
     private fun setupServerDataFlow() {
         lifecycleScope.launch {
@@ -109,19 +119,19 @@ class AddServerFragment : BaseFragment() {
                         layoutParams = params
                     }
                     setLoading(false)
-                }
+                } ?: addServerModel.setError(true, resources.getString(R.string.failed_to_insert_error))
             }
 
             absRequest.invalidServerFlow.flowWithLifecycle(lifecycle).collect {
-                mainActivity?.setLoading(false)
-                addServerModel.showError(true)
+                hideLoading()
+                addServerModel.setError(true, resources.getString(R.string.server_connection_error))
             }
         }
     }
 
     private fun AlertDialog.reset() {
         dialogBinding.serverAddressInput.text.clear()
-        addServerModel.showError(false)
+        addServerModel.setError(false)
         dismiss()
     }
 

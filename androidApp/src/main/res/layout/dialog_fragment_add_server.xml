@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:paddingHorizontal="16dp"
-            android:text="@string/server_connection_error"
+            android:text="@{addServerModel.errorTextLiveData}"
             android:textColor="@android:color/holo_red_light"
             android:textStyle="bold"
             android:visibility="@{addServerModel.errorVisibilityLiveData}"
