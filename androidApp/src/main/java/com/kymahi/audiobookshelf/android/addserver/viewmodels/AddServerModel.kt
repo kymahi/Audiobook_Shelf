@@ -11,6 +11,7 @@ class AddServerModel: ViewModel() {
     val cancelDialogLiveData = MutableLiveData<Unit>()
     val errorVisibilityLiveData = MutableLiveData(View.GONE)
     val serverLiveData = MutableLiveData<List<Server>>()
+    val clearServersLiveData = MutableLiveData<Unit>()
 
     fun showServerModal() {
         addServerModalLiveData.value = Unit
@@ -30,5 +31,15 @@ class AddServerModel: ViewModel() {
 
     fun updateServers(servers: List<Server>?) {
         serverLiveData.value = servers ?: emptyList()
+    }
+
+    private var lastClickTime = 0L
+    fun onDoubleClick() {
+        lastClickTime = if (System.currentTimeMillis() - lastClickTime < 300){
+            clearServersLiveData.value = Unit
+            0
+        }else{
+            System.currentTimeMillis()
+        }
     }
 }

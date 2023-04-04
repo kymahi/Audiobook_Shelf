@@ -1,9 +1,6 @@
 package com.kymahi.audiobookshelf.android.addserver
 
-import android.content.res.Resources.getSystem
 import android.os.Bundle
-import android.util.TypedValue.COMPLEX_UNIT_DIP
-import android.util.TypedValue.applyDimension
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +19,8 @@ import com.kymahi.audiobookshelf.android.addserver.viewmodels.AddServerModel
 import com.kymahi.audiobookshelf.android.addserver.viewmodels.GitHubViewModel
 import com.kymahi.audiobookshelf.android.databinding.DialogFragmentAddServerBinding
 import com.kymahi.audiobookshelf.android.databinding.FragmentAddServerBinding
+import com.kymahi.audiobookshelf.android.dp
+import com.kymahi.audiobookshelf.android.get
 import kotlinx.coroutines.launch
 import kotlin.math.min
 
@@ -64,7 +63,21 @@ class AddServerFragment : BaseFragment() {
 
         addServerModel.addServerModalLiveData.observe(viewLifecycleOwner) { dialog.show() }
 
+        addServerModel.clearServersLiveData.observe(viewLifecycleOwner) {
+            mainActivity?.apply {
+                clearDatabase()
+                addServerModel.updateServers(getAllServers())
+
+                fragmentBinding.serverList.apply {
+                    val params = layoutParams
+                    params.height = 0
+                    layoutParams = params
+                }
+            }
+        }
+
         addServerModel.submitDialogLiveData.observe(viewLifecycleOwner) {
+            mainActivity?.setLoading(true)
             addServerModel.showError(false)
             lifecycleScope.launch {
                 absRequest.verifyServerAddress(dialogBinding.serverAddressInput.text.toString())
@@ -72,27 +85,35 @@ class AddServerFragment : BaseFragment() {
         }
 
         addServerModel.cancelDialogLiveData.observe(viewLifecycleOwner) {
+            mainActivity?.setLoading(false)
             dialog.reset()
         }
     }
 
     private fun setupServerDataFlow() {
         lifecycleScope.launch {
-            addServerModel.updateServers(mainActivity?.getAllServers())
+            mainActivity?.apply {
+                setLoading(true)
+                addServerModel.updateServers(getAllServers())
+                setLoading(false)
+            }
 
             absRequest.validServerFlow.flowWithLifecycle(lifecycle).collect { url ->
                 dialog.reset()
-                mainActivity?.insertServer(Server(DEFAULT_SERVER_ID, url))?.let {
-                    addServerModel.updateServers(mainActivity?.getAllServers())
+                mainActivity?.apply {
+                    insertServer(Server(DEFAULT_SERVER_ID, url))
+                    addServerModel.updateServers(getAllServers())
                     fragmentBinding.serverList.apply {
                         val params = layoutParams
-                        params.height = min(400.dp, height + R.dimen.server_list_item_height.get())
+                        params.height = min(400.dp, height + resources.get(R.dimen.server_list_item_height))
                         layoutParams = params
                     }
+                    setLoading(false)
                 }
             }
 
             absRequest.invalidServerFlow.flowWithLifecycle(lifecycle).collect {
+                mainActivity?.setLoading(false)
                 addServerModel.showError(true)
             }
         }
@@ -103,9 +124,6 @@ class AddServerFragment : BaseFragment() {
         addServerModel.showError(false)
         dismiss()
     }
-
-    private val Number.dp get() = applyDimension(COMPLEX_UNIT_DIP, toFloat(), getSystem().displayMetrics).toInt()
-    private fun Int.get() = resources.getDimension(this).toInt()
 
     companion object AddServerFragmentServerListBindingAdapter {
         @JvmStatic

@@ -18,4 +18,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
+    <ProgressBar
+        android:id="@+id/loading_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:visibility="gone"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:elevation="888dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,9 +13,7 @@ actual data class Server actual constructor(
     @SerialName("url")
     val url: String
 ) {
-    companion object {
-        fun Server.toServer() = Server(id.toInt(), url)
-    }
+    fun toServer() = Server(id.toLong(), url)
 }
 
 @Serializable
@@ -29,9 +27,7 @@ actual data class User actual constructor(
     @SerialName("server_id")
     val serverId: Int
 ) {
-    companion object {
-        fun User.toUser() = User(id, username, api_token, serverId)
-    }
+    fun toUser() = User(id.toLong(), username, token, serverId.toLong())
 }
 
 @Serializable
@@ -63,7 +59,5 @@ actual data class Book actual constructor(
     @SerialName("url")
     val serverUrl: String
 ) {
-    companion object {
-        fun Book.toBook() = Book(id.toString(), title, subtitle, authors, series, narrators, duration.toInt(), genres, published_year.toInt(), description, progress.toInt(), bookmarks, url)
-    }
+    fun toBook() = Book(id, title, subtitle, authors, series, narrators, duration.toLong(), genres, published.toLong(), description, progress.toLong(), bookmarks, serverUrl)
 }

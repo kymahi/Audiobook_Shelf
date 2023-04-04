@@ -22,10 +22,11 @@ class ServerListAdapter(
     override fun getItemCount(): Int = serverList.size
 
     fun updateServerList(servers: List<Server>?) {
-        val diffCallback = ServerDiffCallback(serverList, serverList)
+        val newList = servers ?: emptyList()
+        val diffCallback = ServerDiffCallback(serverList, newList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         serverList.clear()
-        serverList.addAll(servers ?: emptyList())
+        serverList.addAll(newList)
         diffResult.dispatchUpdatesTo(this)
     }
 }

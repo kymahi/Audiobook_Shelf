@@ -11,16 +11,19 @@ import com.app.sql.shared.entity.Server
 import com.app.sql.shared.entity.User
 import com.app.sql.shared.cache.Database
 import com.app.sql.shared.cache.DatabaseDriverFactory
+import com.kymahi.audiobookshelf.android.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private val db = Database(DatabaseDriverFactory(this))
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         splash()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     private fun splash() {
@@ -34,6 +37,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
+    fun setLoading(isVisible: Boolean) = binding.loadingIcon.apply { if (isVisible) visible() else gone() }
+
+    // region Database Functions
     fun insertServer(server: Server) = db.insertServer(server.toServer())
     fun insertUser(user: User) = db.insertUser(user.toUser())
     fun insertBook(book: Book) = db.insertBook(book.toBook())
@@ -52,4 +58,5 @@ class MainActivity : AppCompatActivity() {
     fun removeAllUsers() = db.removeAllUsers()
     fun removeAllBooks() = db.removeAllBooks()
     fun clearDatabase() = db.clearDatabase()
+    //endregion
 }

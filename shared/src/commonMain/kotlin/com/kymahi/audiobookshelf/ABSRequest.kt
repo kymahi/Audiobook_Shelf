@@ -20,6 +20,7 @@ class ABSRequest {
     suspend fun verifyServerAddress(url: String) {
         HttpClient(CIO) {
             install(ContentNegotiation) { json() }
+            install(HttpTimeout) { requestTimeoutMillis = 1000L }
             HttpResponseValidator {
                 validateResponse {
                     if (it.status.isSuccess() && it.body<PingResult>().isSuccess) {
@@ -32,7 +33,7 @@ class ABSRequest {
         }.apply {
             requestAndCatch(
                 { get(url.toSafeUrl()) },
-                { validServerFlow.emit(url.getHost()) }
+                { invalidServerFlow.emit(Unit) }
             )
         }
     }
@@ -44,7 +45,7 @@ class ABSRequest {
         errorHandler: suspend (Throwable) -> T
     ): T = runCatching { block() }.getOrElse { errorHandler(it) }
 
-    private fun String.toSafeUrl() = URLBuilder(HTTP, getHost(), getPort()).appendPathSegments(getPath(), PING).build()
+    private fun String.toSafeUrl() = URLBuilder(HTTP, getHost(), getPort(), pathSegments = getPath().split("/") + PING).build()
     private fun String.getHost() = substringAfter(PROTOCOL).substringBefore(PORT)
     private fun String.getPort() = substringAfter(PROTOCOL).substringAfter(PORT, "").substringBefore(PATH).let {
         if (it.isBlank()) DEFAULT_PORT else try { it.toInt() } catch (t: Throwable) { DEFAULT_PORT }
