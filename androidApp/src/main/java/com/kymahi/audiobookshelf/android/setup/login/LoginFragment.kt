@@ -60,15 +60,17 @@ class LoginFragment: BaseFragment() {
 
     private fun setupServerDataFlow() {
         lifecycleScope.launch {
-            absRequest.invalidLoginFlow.flowWithLifecycle(lifecycle).collect {
-                loginModel.setError(true, resources.getString(R.string.login_failed_error))
-            }
-
             absRequest.validLoginFlow.flowWithLifecycle(lifecycle).collect {
                 AlertDialog.Builder(mainActivity).apply {
                     setMessage("SUCCESS!")
                     setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                 }.show()
+            }
+        }
+
+        lifecycleScope.launch {
+            absRequest.invalidLoginFlow.flowWithLifecycle(lifecycle).collect {
+                loginModel.setError(true, resources.getString(R.string.login_failed_error))
             }
         }
     }

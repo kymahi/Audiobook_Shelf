@@ -99,13 +99,13 @@ class AddServerFragment : BaseFragment() {
     private fun hideLoading() = mainActivity.setLoading(false)
 
     private fun setupServerDataFlow() {
-        lifecycleScope.launch {
-            mainActivity.apply {
-                setLoading(true)
-                addServerModel.updateServers(getAllServers())
-                setLoading(false)
-            }
+        mainActivity.apply {
+            setLoading(true)
+            addServerModel.updateServers(getAllServers())
+            setLoading(false)
+        }
 
+        lifecycleScope.launch {
             absRequest.validServerFlow.flowWithLifecycle(lifecycle).collect { url ->
                 dialog.reset()
                 mainActivity.apply {
@@ -120,7 +120,9 @@ class AddServerFragment : BaseFragment() {
                     navigateToLogin(url)
                 }
             }
+        }
 
+        lifecycleScope.launch {
             absRequest.invalidServerFlow.flowWithLifecycle(lifecycle).collect {
                 hideLoading()
                 addServerModel.setError(true, resources.getString(R.string.server_connection_error))
