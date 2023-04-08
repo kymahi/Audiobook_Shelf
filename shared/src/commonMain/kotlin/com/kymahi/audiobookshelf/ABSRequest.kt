@@ -34,7 +34,7 @@ class ABSRequest {
     val validServerFlow = MutableSharedFlow<String>()
     val invalidServerFlow = MutableSharedFlow<Unit>()
     val validLoginFlow = MutableSharedFlow<User>()
-    val invalidLoginFlow = MutableSharedFlow<Throwable>()
+    val invalidLoginFlow = MutableSharedFlow<Unit>()
 
     suspend fun verifyServerAddress(url: String) {
         val verifyServer = client.config {
@@ -64,7 +64,7 @@ class ABSRequest {
                     if (it.status.isSuccess()) {
                         validLoginFlow.emit(it.body<UserWrapper>().user)
                     } else {
-                        invalidLoginFlow.emit(Throwable())
+                        invalidLoginFlow.emit(Unit)
                     }
                 }
             }
@@ -76,11 +76,7 @@ class ABSRequest {
 
         login.requestAndCatch(
             { submitForm(url.toSafeUrl(LOGIN).toString(), parameters) },
-            {
-                val throwable = it
-                invalidLoginFlow.emit(throwable)
-                client.close()
-            }
+            { invalidLoginFlow.emit(Unit) }
         )
 
         login.close()
