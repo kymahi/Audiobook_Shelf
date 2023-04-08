@@ -1,4 +1,4 @@
-package com.kymahi.audiobookshelf.android.addserver.serverlist
+package com.kymahi.audiobookshelf.android.setup.addserver.serverlist
 
 import androidx.recyclerview.widget.DiffUtil
 import com.app.sql.shared.entity.Server

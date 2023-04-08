@@ -7,8 +7,23 @@
 
     <fragment
         android:id="@+id/addServerFragment"
-        android:name="com.kymahi.audiobookshelf.android.addserver.AddServerFragment"
+        android:name="com.kymahi.audiobookshelf.android.setup.addserver.AddServerFragment"
         android:label="@string/add_new_server"
-        tools:layout="@layout/fragment_add_server" />
+        tools:layout="@layout/fragment_add_server">
+        <action
+            android:id="@+id/startLogin"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.kymahi.audiobookshelf.android.setup.login.LoginFragment"
+        android:label="@string/login"
+        tools:layout="@layout/fragment_login">
+        <argument
+            android:name="@string/absUrl"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
 
 </navigation>

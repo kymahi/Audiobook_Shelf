@@ -1,4 +1,4 @@
-package com.kymahi.audiobookshelf.android.addserver.serverlist
+package com.kymahi.audiobookshelf.android.setup.addserver.serverlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,8 @@ import com.app.sql.shared.entity.Server
 import com.kymahi.audiobookshelf.android.databinding.ServerListItemBinding
 
 class ServerListAdapter(
-    private val serverList: MutableList<Server> = mutableListOf()
+    private val serverList: MutableList<Server> = mutableListOf(),
+    private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<ServerViewHolder>() {
 
     private lateinit var binding: ServerListItemBinding
@@ -18,7 +19,7 @@ class ServerListAdapter(
         return ServerViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ServerViewHolder, position: Int) = holder.bind(serverList[position])
+    override fun onBindViewHolder(holder: ServerViewHolder, position: Int) = holder.bind(serverList[position], onClick)
     override fun getItemCount(): Int = serverList.size
 
     fun updateServerList(servers: List<Server>?) {

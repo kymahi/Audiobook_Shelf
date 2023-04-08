@@ -18,6 +18,8 @@ object APIPath {
      * password	    String	The password of the user.
      */
     const val LOGIN = "login"
+    const val USERNAME = "username"
+    const val PASSWORD = "password"
 
     /**
      * This endpoint logs out a client from the server.

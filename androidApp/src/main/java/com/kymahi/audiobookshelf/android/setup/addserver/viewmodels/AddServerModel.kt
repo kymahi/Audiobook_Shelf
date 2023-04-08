@@ -1,4 +1,4 @@
-package com.kymahi.audiobookshelf.android.addserver.viewmodels
+package com.kymahi.audiobookshelf.android.setup.addserver.viewmodels
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +13,7 @@ class AddServerModel: ViewModel() {
     val errorTextLiveData = MutableLiveData("")
     val serverLiveData = MutableLiveData<List<Server>>()
     val clearServersLiveData = MutableLiveData<Unit>()
+    val onServerClickedLiveData = MutableLiveData<String>()
 
     fun showServerModal() {
         addServerModalLiveData.value = Unit
@@ -43,5 +44,9 @@ class AddServerModel: ViewModel() {
         }else{
             System.currentTimeMillis()
         }
+    }
+
+    val onItemClick = { url: String ->
+        onServerClickedLiveData.value = url
     }
 }

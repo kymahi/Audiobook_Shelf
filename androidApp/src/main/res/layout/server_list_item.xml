@@ -12,8 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/server_list_item_height"
-        android:background="@android:color/transparent"
-        tools:background="@android:color/black">
+        android:background="@android:color/transparent">
 
         <ImageView
             android:id="@+id/server_icon"

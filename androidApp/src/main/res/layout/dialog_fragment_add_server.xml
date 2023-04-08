@@ -4,11 +4,9 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="addServerModel"
-            type="com.kymahi.audiobookshelf.android.addserver.viewmodels.AddServerModel" />
+            type="com.kymahi.audiobookshelf.android.setup.addserver.viewmodels.AddServerModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

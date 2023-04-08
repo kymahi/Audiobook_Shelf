@@ -1,4 +1,4 @@
-package com.kymahi.audiobookshelf.android.addserver.viewmodels
+package com.kymahi.audiobookshelf.android.setup.viewmodels
 
 import android.content.Intent
 import android.content.Intent.ACTION_MAIN

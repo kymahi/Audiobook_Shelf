@@ -1,11 +1,12 @@
-package com.kymahi.audiobookshelf.android.addserver.serverlist
+package com.kymahi.audiobookshelf.android.setup.addserver.serverlist
 
 import androidx.recyclerview.widget.RecyclerView
 import com.app.sql.shared.entity.Server
 import com.kymahi.audiobookshelf.android.databinding.ServerListItemBinding
 
 class ServerViewHolder(private val binding: ServerListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(server: Server) {
+    fun bind(server: Server, onClickAction: (String) -> Unit) {
         binding.server = server
+        binding.root.setOnClickListener { onClickAction(server.url) }
     }
 }
