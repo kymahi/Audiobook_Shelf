@@ -54,7 +54,7 @@ class LoginFragment: BaseFragment() {
         gitHubModel.openLinkLiveData.observe(viewLifecycleOwner) { startActivity(it) }
 
         loginModel.loginLiveData.observe(viewLifecycleOwner) {
-            mainActivity.setLoading(true)
+            showLoading()
             lifecycleScope.launch {
                 loginModel.setError(false)
                 absRequest.login(absUrl, fragmentBinding.usernameInput.input, fragmentBinding.passwordInput.input, absId)
@@ -69,13 +69,14 @@ class LoginFragment: BaseFragment() {
                     setMessage("SUCCESS!\n$it")
                     setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                 }.show()
+                hideLoading()
             }
-            mainActivity.setLoading(false)
         }
 
         lifecycleScope.launch {
             absRequest.invalidLoginFlow.flowWithLifecycle(lifecycle).collect {
                 loginModel.setError(true, resources.getString(R.string.login_failed_error))
+                hideLoading()
             }
         }
     }

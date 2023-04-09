@@ -103,17 +103,15 @@ class AddServerFragment : BaseFragment() {
         lifecycleScope.launch {
             absRequest.validServerFlow.flowWithLifecycle(lifecycle).collect { url ->
                 dialog.reset()
-                mainActivity.apply {
-                    insertServer(Server(DEFAULT_SERVER_ID, url))
-                    addServerModel.updateServers(getAllServers())
-                    fragmentBinding.serverList.apply {
-                        val params = layoutParams
-                        params.height = min(400.dp, height + resources.getDim(R.dimen.server_list_item_height))
-                        layoutParams = params
-                    }
-                    setLoading(false)
-                    getServerByUrl(url)?.let { navigateToLogin(it) }
+                mainActivity.insertServer(Server(DEFAULT_SERVER_ID, url))
+                addServerModel.updateServers(mainActivity.getAllServers())
+                fragmentBinding.serverList.apply {
+                    val params = layoutParams
+                    params.height = min(400.dp, height + resources.getDim(R.dimen.server_list_item_height))
+                    layoutParams = params
                 }
+                hideLoading()
+                mainActivity.getServerByUrl(url)?.let { navigateToLogin(it) }
             }
         }
 
@@ -125,7 +123,8 @@ class AddServerFragment : BaseFragment() {
         }
     }
 
-    private fun navigateToLogin(server: Server) = findNavController().navigate(AddServerFragmentDirections.startLogin(server.url, server.id))
+    private fun navigateToLogin(server: Server) =
+        findNavController().navigate(AddServerFragmentDirections.startLogin(server.url, server.id))
 
     private fun AlertDialog.reset() {
         dialogBinding.serverAddressInput.text.clear()
