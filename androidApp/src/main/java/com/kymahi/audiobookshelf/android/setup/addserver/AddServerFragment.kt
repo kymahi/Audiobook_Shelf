@@ -95,15 +95,10 @@ class AddServerFragment : BaseFragment() {
         }
     }
 
-    private fun showLoading() = mainActivity.setLoading(true)
-    private fun hideLoading() = mainActivity.setLoading(false)
-
     private fun setupServerDataFlow() {
-        mainActivity.apply {
-            setLoading(true)
-            addServerModel.updateServers(getAllServers())
-            setLoading(false)
-        }
+        showLoading()
+        addServerModel.updateServers(mainActivity.getAllServers())
+        hideLoading()
 
         lifecycleScope.launch {
             absRequest.validServerFlow.flowWithLifecycle(lifecycle).collect { url ->
@@ -117,7 +112,7 @@ class AddServerFragment : BaseFragment() {
                         layoutParams = params
                     }
                     setLoading(false)
-                    navigateToLogin(url)
+                    getServerByUrl(url)?.let { navigateToLogin(it) }
                 }
             }
         }
@@ -130,7 +125,7 @@ class AddServerFragment : BaseFragment() {
         }
     }
 
-    private fun navigateToLogin(url: String) = findNavController().navigate(AddServerFragmentDirections.startLogin(url))
+    private fun navigateToLogin(server: Server) = findNavController().navigate(AddServerFragmentDirections.startLogin(server.url, server.id))
 
     private fun AlertDialog.reset() {
         dialogBinding.serverAddressInput.text.clear()
@@ -141,7 +136,7 @@ class AddServerFragment : BaseFragment() {
     companion object {
         @JvmStatic
         @BindingAdapter(value = ["serverList", "onItemClick"], requireAll = true)
-        fun bindServerList(recyclerView: RecyclerView, serverList: List<Server>?, onItemClick: (String) -> Unit) {
+        fun bindServerList(recyclerView: RecyclerView, serverList: List<Server>?, onItemClick: (String, Int) -> Unit) {
             when (recyclerView.adapter) {
                 is ServerListAdapter -> recyclerView.adapter as ServerListAdapter
                 else -> ServerListAdapter(onClick = onItemClick).also { recyclerView.adapter = it }

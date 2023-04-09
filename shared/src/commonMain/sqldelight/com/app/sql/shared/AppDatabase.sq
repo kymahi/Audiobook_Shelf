@@ -4,10 +4,26 @@ CREATE TABLE Server (
 );
 
 CREATE TABLE User (
-    id              INTEGER     PRIMARY KEY     AUTOINCREMENT   NOT NULL,
+    id              TEXT        PRIMARY KEY                     NOT NULL,
     username        TEXT                                        NOT NULL,
     api_token       TEXT                                        NOT NULL,
+    default_library TEXT                                        NOT NULL,
     serverId        INTEGER                                     NOT NULL
+);
+
+CREATE TABLE MediaProgress (
+    id                              TEXT        PRIMARY KEY         NOT NULL,
+    library_item_id                 TEXT                            NOT NULL,
+    episode_id                      TEXT                                    ,
+    duration                        REAL                            NOT NULL,
+    progress                        REAL                            NOT NULL,
+    current_time                    REAL                            NOT NULL,
+    is_finished                     INTEGER                         NOT NULL,
+    hide_from_continue_listening    INTEGER                         NOT NULL,
+    last_update                     INTEGER                         NOT NULL,
+    startedAt                       INTEGER                         NOT NULL,
+    finished_at                     INTEGER                                 ,
+    user_id                         TEXT                            NOT NULL
 );
 
 CREATE TABLE Book (
@@ -31,8 +47,12 @@ INSERT INTO Server(id, url)
 VALUES(?, ?);
 
 insertUser:
-INSERT INTO User(id, username, api_token, serverId)
-VALUES(?, ?, ?, ?);
+INSERT INTO User(id, username, api_token, default_library, serverId)
+VALUES(?, ?, ?, ?, ?);
+
+insertMediaProgress:
+INSERT INTO MediaProgress(id, library_item_id, episode_id, duration, progress, current_time, is_finished, hide_from_continue_listening, last_update, startedAt, finished_at, user_id)
+VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 insertBook:
 INSERT INTO Book(id, title, subtitle, authors, series, narrators, duration, genres, published_year, description, progress, bookmarks, url)
@@ -63,6 +83,10 @@ selectUserById:
 SELECT * FROM User
 WHERE id = ?;
 
+selectMediaProgressByUserId:
+SELECT * FROM MediaProgress
+WHERE user_id = ?;
+
 selectBookById:
 SELECT * FROM Book
 WHERE id = ?;
@@ -72,6 +96,9 @@ DELETE FROM Server;
 
 removeAllUsers:
 DELETE FROM User;
+
+removeAllMediaProgress:
+DELETE FROM MediaProgress;
 
 removeAllBooks:
 DELETE FROM Book;

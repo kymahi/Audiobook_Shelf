@@ -13,7 +13,7 @@ class AddServerModel: ViewModel() {
     val errorTextLiveData = MutableLiveData("")
     val serverLiveData = MutableLiveData<List<Server>>()
     val clearServersLiveData = MutableLiveData<Unit>()
-    val onServerClickedLiveData = MutableLiveData<String>()
+    val onServerClickedLiveData = MutableLiveData<Server>()
 
     fun showServerModal() {
         addServerModalLiveData.value = Unit
@@ -46,7 +46,7 @@ class AddServerModel: ViewModel() {
         }
     }
 
-    val onItemClick = { url: String ->
-        onServerClickedLiveData.value = url
+    val onItemClick = { url: String, id: Int ->
+        onServerClickedLiveData.value = Server(id, url)
     }
 }

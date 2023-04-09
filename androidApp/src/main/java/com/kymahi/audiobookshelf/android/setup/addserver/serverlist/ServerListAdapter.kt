@@ -9,7 +9,7 @@ import com.kymahi.audiobookshelf.android.databinding.ServerListItemBinding
 
 class ServerListAdapter(
     private val serverList: MutableList<Server> = mutableListOf(),
-    private val onClick: (String) -> Unit
+    private val onClick: (String, Int) -> Unit
 ) : RecyclerView.Adapter<ServerViewHolder>() {
 
     private lateinit var binding: ServerListItemBinding

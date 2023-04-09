@@ -13,7 +13,6 @@
     <string name="duplicate_server_error">Server already exists. Please add a different server to the list, or you can add additional users to an existing server.</string>
     <string name="failed_to_insert_error">Failed to add new server. Please try again.</string>
     <string name="login">Login</string>
-    <string name="absUrl">absUrl</string>
     <string name="back_arrow">Back Arrow</string>
     <string name="username">username</string>
     <string name="password">password</string>

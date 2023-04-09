@@ -21,8 +21,12 @@
         android:label="@string/login"
         tools:layout="@layout/fragment_login">
         <argument
-            android:name="@string/absUrl"
+            android:name="absUrl"
             app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="absId"
+            app:argType="integer"
             app:nullable="false" />
     </fragment>
 

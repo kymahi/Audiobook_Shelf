@@ -19,16 +19,48 @@ actual data class Server actual constructor(
 @Serializable
 actual data class User actual constructor(
     @SerialName("id")
-    val id: Int,
+    val id: String,
     @SerialName("username")
     val username: String,
     @SerialName("api_token")
     val token: String,
     @SerialName("server_id")
-    val serverId: Int
+    val serverId: Int,
+    @SerialName("default_library")
+    val defaultLibrary: String,
+    @SerialName("media_progress")
+    val mediaProgress: List<MediaProgress>
 ) {
-    fun toUser() = User(id.toLong(), username, token, serverId.toLong())
+    fun toUser() = User(id, username, token, defaultLibrary, serverId.toLong())
 }
+
+@Serializable
+actual data class MediaProgress actual constructor(
+    @SerialName("id")
+    val id: String,
+    @SerialName("libraryItemId")
+    val libraryItemId: String,
+    @SerialName("episodeId")
+    val episodeId: String?,
+    @SerialName("duration")
+    val duration: Double,
+    @SerialName("progress")
+    val progress: Double,
+    @SerialName("currentTime")
+    val currentTime: Double,
+    @SerialName("isFinished")
+    val isFinished: Boolean,
+    @SerialName("hideFromContinueListening")
+    val hideFromContinueListening: Boolean,
+    @SerialName("lastUpdate")
+    val lastUpdate: Long,
+    @SerialName("startedAt")
+    val startedAt: Long,
+    @SerialName("finishedAt")
+    val finishedAt: Long?,
+    @SerialName("user_id")
+    val userId: String
+)
 
 @Serializable
 actual data class Book actual constructor(

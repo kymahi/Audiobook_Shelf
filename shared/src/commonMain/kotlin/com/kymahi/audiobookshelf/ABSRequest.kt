@@ -1,11 +1,11 @@
 package com.kymahi.audiobookshelf
 
+import com.app.sql.shared.entity.User
 import com.kymahi.audiobookshelf.api.APIPath.LOGIN
 import com.kymahi.audiobookshelf.api.APIPath.PASSWORD
 import com.kymahi.audiobookshelf.api.APIPath.PING
 import com.kymahi.audiobookshelf.api.APIPath.USERNAME
 import com.kymahi.audiobookshelf.models.PingResult
-import com.kymahi.audiobookshelf.models.User
 import com.kymahi.audiobookshelf.models.UserWrapper
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -57,12 +57,12 @@ class ABSRequest {
         verifyServer.close()
     }
 
-    suspend fun login(url: String, username: String, password: String) {
+    suspend fun login(url: String, username: String, password: String, serverId: Int) {
         val login = client.config {
             HttpResponseValidator {
                 validateResponse {
                     if (it.status.isSuccess()) {
-                        validLoginFlow.emit(it.body<UserWrapper>().user)
+                        validLoginFlow.emit(it.body<UserWrapper>().toEntity(serverId))
                     } else {
                         invalidLoginFlow.emit(Unit)
                     }

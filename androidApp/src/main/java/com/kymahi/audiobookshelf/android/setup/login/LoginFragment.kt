@@ -27,8 +27,11 @@ class LoginFragment: BaseFragment() {
     private lateinit var fragmentBinding: FragmentLoginBinding
     private lateinit var absUrl: String
 
+    private var absId: Int = -1
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        absUrl = args.stringAbsUrl
+        absUrl = args.absUrl
+        absId = args.absId
 
         setupBinding()
         setupObservers()
@@ -51,9 +54,10 @@ class LoginFragment: BaseFragment() {
         gitHubModel.openLinkLiveData.observe(viewLifecycleOwner) { startActivity(it) }
 
         loginModel.loginLiveData.observe(viewLifecycleOwner) {
+            mainActivity.setLoading(true)
             lifecycleScope.launch {
                 loginModel.setError(false)
-                absRequest.login(absUrl, fragmentBinding.usernameInput.input, fragmentBinding.passwordInput.input)
+                absRequest.login(absUrl, fragmentBinding.usernameInput.input, fragmentBinding.passwordInput.input, absId)
             }
         }
     }
@@ -62,10 +66,11 @@ class LoginFragment: BaseFragment() {
         lifecycleScope.launch {
             absRequest.validLoginFlow.flowWithLifecycle(lifecycle).collect {
                 AlertDialog.Builder(mainActivity).apply {
-                    setMessage("SUCCESS!")
+                    setMessage("SUCCESS!\n$it")
                     setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                 }.show()
             }
+            mainActivity.setLoading(false)
         }
 
         lifecycleScope.launch {

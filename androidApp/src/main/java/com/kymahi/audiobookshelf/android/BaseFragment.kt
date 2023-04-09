@@ -8,6 +8,9 @@ open class BaseFragment : Fragment() {
 
     protected val absRequest = AndroidABSRequest.INSTANCE
 
+    protected fun showLoading() = mainActivity.setLoading(true)
+    protected fun hideLoading() = mainActivity.setLoading(false)
+
     companion object {
         const val DEFAULT_SERVER_ID = -1
     }
