@@ -30,4 +30,15 @@
             app:nullable="false" />
     </fragment>
 
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.kymahi.audiobookshelf.android.library.home.HomeFragment"
+        android:label="Home"
+        tools:layout="">
+        <argument
+            android:name="user"
+            app:argType="com.app.sql.shared.entity.User"
+            app:nullable="false" />
+    </fragment>
+
 </navigation>

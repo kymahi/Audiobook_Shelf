@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/home_icon"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/library"
+        android:enabled="true"
+        android:icon="@drawable/library_icon"
+        android:title="@string/library" />
+    <item
+        android:id="@+id/series"
+        android:enabled="true"
+        android:icon="@drawable/series_icon"
+        android:title="@string/series" />
+    <item
+        android:id="@+id/collections"
+        android:enabled="true"
+        android:icon="@drawable/collections_icon"
+        android:title="@string/collections" />
+    <item
+        android:id="@+id/authors"
+        android:enabled="true"
+        android:icon="@drawable/authors_icon"
+        android:title="@string/authors" />
+</menu>

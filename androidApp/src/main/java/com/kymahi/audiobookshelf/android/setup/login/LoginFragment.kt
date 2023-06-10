@@ -65,10 +65,7 @@ class LoginFragment: BaseFragment() {
     private fun setupServerDataFlow() {
         lifecycleScope.launch {
             absRequest.validLoginFlow.flowWithLifecycle(lifecycle).collect {
-                AlertDialog.Builder(mainActivity).apply {
-                    setMessage("SUCCESS!\n$it")
-                    setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                }.show()
+                mainActivity.insertUser(it, absId.toLong())
                 hideLoading()
             }
         }
